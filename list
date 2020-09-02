@@ -1,0 +1,331 @@
+package password;
+
+public class information {
+	
+	private String name;
+	private String gender;
+	private int age;
+	private int height;
+	private int weight;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	public int getWeight() {
+		return weight;
+	}
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+	public information(String name, String gender, int age, int height, int weight) {
+		super();
+		this.name = name;
+		this.gender = gender;
+		this.age = age;
+		this.height = height;
+		this.weight = weight;
+	}
+	
+
+
+
+}
+----------------------------------------------------------------------------------
+package password;
+
+public class teacher extends information {
+	
+	private String teacherID;
+	private String teacherPW;
+	private int monthPay;
+	private int workedYear;
+	private int teachercount;
+
+	
+	
+	public String getTeacherID() {
+		return teacherID;
+	}
+	public void setTeacherID(String teacherID) {
+		this.teacherID = teacherID;
+	}
+	public String getTeacherPW() {
+		return teacherPW;
+	}
+	public void setTeacherPW(String teacherPW) {
+		this.teacherPW = teacherPW;
+	}
+	public int getMonthPay() {
+		return monthPay;
+	}
+	public void setMonthPay(int monthPay) {
+		this.monthPay = monthPay;
+	}
+	public int getWorkedYear() {
+		return workedYear;
+	}
+	public void setWorkedYear(int workedYear) {
+		this.workedYear = workedYear;
+	}
+
+	
+	public teacher(String name, String gender, int age, int height, int weight, String teacherID, String teacherPW,
+			int monthPay, int workedYear, int teachercount) {
+		super(name, gender, age, height, weight);
+		this.teacherID = teacherID;
+		this.teacherPW = teacherPW;
+		this.monthPay = monthPay;
+		this.workedYear = workedYear;
+		this.teachercount = teachercount;
+	}
+	public void show() {
+		System.out.println("--------------------------------------------");
+		System.out.println("선생 이름: " + getName());
+		System.out.println("성별: "+ getGender());
+		System.out.println("나이: "+ getAge());
+		System.out.println("키: "+ getHeight());
+		System.out.println("몸무계: "+ getWeight());
+		System.out.println("선생 번호: "+ getTeachercount());
+	}
+	public int getTeachercount() {
+		return teachercount;
+	}
+	public void setTeachercount(int teachercount) {
+		this.teachercount = teachercount;
+	}
+
+}
+-----------------------------------------------------------------------------
+package password;
+
+public class student extends information{
+	private String studentID;
+	private String studentPW;
+	private int grade;
+	private double GPA;
+	private int studentcount;
+	
+	public int getStudentcount() {
+		return studentcount;
+	}
+	public void setStudentcount(int studentcount) {
+		this.studentcount = studentcount;
+	}
+	public static int getStudentnumber() {
+		return studentnumber;
+	}
+	public static void setStudentnumber(int studentnumber) {
+		student.studentnumber = studentnumber;
+	}
+	public static int studentnumber;
+	public String getStudentID() {
+		return studentID;
+	}
+	public void setStudentID(String studentID) {
+		this.studentID = studentID;
+	}
+	public String getStudentPW() {
+		return studentPW;
+	}
+	public void setStudentPW(String studentPW) {
+		this.studentPW = studentPW;
+	}
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+	public double getGPA() {
+		return GPA;
+	}
+	public void setGPA(double gPA) {
+		GPA = gPA;
+	}
+
+
+	public student(String name, String gender, int age, int height, int weight, String studentID, String studentPW,
+			int grade, double gPA, int studentcount) {
+		super(name, gender, age, height, weight);
+		this.studentID = studentID;
+		this.studentPW = studentPW;
+		this.grade = grade;
+		GPA = gPA;
+		this.studentcount = studentcount;
+	}
+	public void show() {
+		System.out.println("--------------------------------------------");
+		System.out.println("학생 이름: "+ getName());
+		System.out.println("성별: "+ getGender());
+		System.out.println("나이: "+ getAge());
+		System.out.println("키: "+ getHeight());
+		System.out.println("몸무계: "+ getWeight());
+		System.out.println("학년:" + getGrade());
+		System.out.println("성적:" +getGPA());
+		System.out.println("학번:" +getStudentcount());
+	
+	}
+
+}
+-----------------------------------------------------------------------------------------
+package password;
+
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		
+		String[] str = new String[10]; 
+		Scanner scanner = new Scanner(System.in);
+		
+
+		System.out.println("학생과 선생중 저장할 그룹을 입력하세요(이떄, 선생 or 학생만 치세요):\n");
+		String who = scanner.next();
+		if(who.equals("학생")) {
+		int studentnumber;
+	System.out.println("원하시는 학생의 수를 입력하세요:\n");
+
+	 studentnumber = scanner.nextInt();
+		student[] students = new student[studentnumber];
+	
+	for(int i = 0; i <studentnumber; i++) {
+		String name; 
+		String gender; 
+		int age; 
+		int height;
+		int weight;
+		String studentID;
+		String studentPW;
+		int grade; 
+		double gPA;
+		int studentcount;
+		
+		System.out.println("학생 이름을 입력하세요:\n");
+		name = scanner.next();
+		
+		System.out.println("학생의 성별을 입력하세요(남 or 여):\n");
+		gender = scanner.next();
+		
+		System.out.println("학생의 나이를 입력하세요(단,숫자만 입력하세요):\n");
+		age = scanner.nextInt();
+		
+		System.out.println("학생의 키를 입력하세요:\n");
+		height = scanner.nextInt();
+		
+		System.out.println("학생의 몸무계를 입력하세요:\n");
+		weight = scanner.nextInt();
+		
+		System.out.println("학생의 ID를 입력하세요:\n");
+		studentID = scanner.next();
+		
+		System.out.println("학생의 PW를 입력하세요:\n");
+		studentPW = scanner.next();
+		
+		System.out.println("학생의 학년을 입력하세요:\n");
+		grade = scanner.nextInt();
+		
+		System.out.println("학생의 성적을 입력하세요:\n");
+		gPA = scanner.nextDouble();
+		
+		studentcount = i;
+		
+		students[i] = new student( name,  gender,  age,  height,  weight,  studentID,  studentPW,
+				 grade,  gPA,  studentcount); 
+		
+	}
+		
+	for(int i = 0; i< studentnumber; i++) {
+		students[i].show();
+	}
+	main(str);
+		
+		}else if(who.equals("선생")) {
+			int teachernumber;
+			
+			System.out.println("원하시는 선생의 수를 입력하세요:\n");
+
+			teachernumber = scanner.nextInt();
+			teacher[] teachers = new teacher[teachernumber];
+
+			
+			for(int i = 0; i <teachernumber; i++) {
+				String name; 
+				String gender; 
+				int age; 
+				int height;
+				int weight;
+				String teacherID;
+				String teacherPW;
+				int monthPay; 
+				int workedYear;
+				int teachercount;
+				
+				System.out.println("선생 이름을 입력하세요:\n");
+				name = scanner.next();
+				
+				System.out.println("선생의 성별을 입력하세요(남 or 여):\n");
+				gender = scanner.next();
+				
+				System.out.println("선생의 나이를 입력하세요(단,숫자만 입력하세요):\n");
+				age = scanner.nextInt();
+				
+				System.out.println("선생의 키를 입력하세요:\n");
+				height = scanner.nextInt();
+				
+				System.out.println("선생의 몸무계를 입력하세요:\n");
+				weight = scanner.nextInt();
+				
+				System.out.println("선생의 ID를 입력하세요:\n");
+				teacherID = scanner.next();
+				
+				System.out.println("선생의 PW를 입력하세요:\n");
+				teacherPW = scanner.next();
+				
+				System.out.println("선생의 월급을 입력하세요:\n");
+				monthPay = scanner.nextInt();
+				
+				System.out.println("선생의 연차을 입력하세요:\n");
+				workedYear = scanner.nextInt();
+				
+				teachercount = i;
+				
+				teachers[i] = new teacher(name,  gender,  age, height, weight,teacherID, teacherPW,
+						monthPay,  workedYear, teachercount); 
+				
+			
+		}
+			for(int i = 0; i< teachernumber; i++) {
+				teachers[i].show();
+			
+			}
+			main(str);
+	}else {
+		System.out.println("학생과 선생중 한명만 입력하세요\n");
+		main(str);
+	
+	}
+}	
+
+
+	
+}
