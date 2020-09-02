@@ -1,0 +1,166 @@
+package internetBot.nejukmaster;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.regex.Matcher;
+
+import java.util.regex.Pattern;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+import org.openqa.selenium.By; //chrome을 열 수 있게
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Proxy;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+
+public class main {
+	public static File dir = new File("C:\\Program Files\\dcdriver");
+	public static String WEB_DRIVER_ID = "webdriver.chrome.driver";
+	public static String WEB_DRIVER_PATH = "C:\\Program Files\\dcdriver\\chromedriver.exe";
+	private static WebDriver driver;
+	private WebElement element;
+	public static int count = 0;
+	public static String previousUrl = "null";
+	public static Proxy proxy = new Proxy();
+	public static int mode = 1;
+
+	public static void takescreenshot(String url) {
+		//Driver SetUp
+        
+				ChromeOptions options = new ChromeOptions();
+				options.setCapability("ignoreProtectedModeSettings", true);
+				options.addArguments("--headless");
+				options.addArguments("--window-size=1920,1800");
+				driver = new ChromeDriver(options);
+				
+		    	try {
+		    	    //캡쳐할 웹 페이지로 이동
+		    	    driver.get(url);
+		    	    try { Thread.sleep(1000); } catch (InterruptedException e) { }
+		    	    //저장할 파일을 지정하여 캡쳐후 파일로 출력
+		    	    Path capture = Paths.get("M:\\internetBot\\screenshot"+count+".png");
+		    	    byte[] bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+		    	    Files.write(capture, bytes);
+		    	} catch (IOException e) {
+		    	    //Exception handling
+		    	} finally {
+		    	    if (driver != null) {
+		    	        driver.close();
+		    	    }
+		    	}
+	}
+	public static void recommand(String url,String ip) {
+		ChromeOptions options = new ChromeOptions();
+		options.setCapability("ignoreProtectedModeSettings", true);
+		options.addArguments("--headless");
+		driver = new ChromeDriver(options);
+		try {
+			driver.get(url);
+			WebElement ele = driver.findElement(By.className("btn_recom_up"));
+			//ele.sendKeys("\n");
+			JavascriptExecutor js = (JavascriptExecutor)driver;
+			js.executeScript("arguments[0].click();", ele);
+		}finally {
+    	    if (driver != null) {
+    	        driver.close();
+    	    }
+    	}
+	}
+	public static String readWeb(BufferedReader in) {
+		String webString = "";
+    	for(;;) {
+    		String inputLine = null;
+    		try {
+				inputLine = in.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		if(inputLine!=null) {
+    			webString += (inputLine+"\n");
+    		}
+    		else break;
+    	}
+    	return webString;
+	} // html 소스 자체를 string으로 읽어줌
+	
+    public static void main(String args[]) {
+    	try {
+    		if(!dir.exists()) 
+    			dir.mkdir();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+    	if(mode==0) {
+    		recommand("https://gall.dcinside.com/board/view/?id=etc_program2&no=8484272&_rk=96k&page=1",null);
+    	}
+    	if(mode==1) {
+    	URL webUrl=null;
+		try {
+			webUrl = new URL("https://gall.dcinside.com/mgallery/board/lists/?id=gaon");
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+    	URLConnection urlConn=null;
+		try {
+			urlConn = webUrl.openConnection();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	urlConn.setRequestProperty("User-Agent", "Mozilla/5.0"); // https를 호출시 user-agent 필요
+
+    		BufferedReader in = null;
+        	try {
+    			in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	String[] a = readWeb(in).split("gall_num"); //split - 분활 (0부터 시작해서 1,2 ~) *한글로 하면 안됨 오류남
+    	String[] b = a[2].split("href");
+    	String[] c = b[1].split("\"");  //""안에 "를 넣기 위해
+    	String url = "https://gall.dcinside.com/"+c[1];
+    	if(!url.equalsIgnoreCase(previousUrl)) {
+    		takescreenshot(url); 
+    		count +=1;
+    		previousUrl = url; //첫 계시글을 가지고 하는데 첫 계시글이 바뀌었을떄(새로 올라왔을때) 새로 저장 
+    	}
+    	try { //try문은 쉬는거
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	
+    	String[] str = new String[10];
+    	
+    	main(str); //main으로 다시 돌아감
+    
+    	}
+        
+    }
+
+}
